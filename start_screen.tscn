@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3itv7l5571g2"]
+
+[ext_resource type="Script" path="res://start_screen.gd" id="1_btksm"]
+[ext_resource type="FontFile" uid="uid://b6gshyc6jps5j" path="res://Jhon Cream.otf" id="1_ei777"]
+[ext_resource type="FontFile" uid="uid://dhbetra75rscv" path="res://SLICKYBOHEM-Regular.otf" id="2_e37pk"]
+
+[node name="Start" type="Node2D"]
+script = ExtResource("1_btksm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -24.0
+offset_top = -25.0
+offset_right = 1183.0
+offset_bottom = 677.0
+color = Color(0.976471, 0.396078, 0.364706, 1)
+
+[node name="Button" type="Button" parent="."]
+offset_left = 446.0
+offset_top = 446.0
+offset_right = 711.0
+offset_bottom = 519.0
+theme_override_fonts/font = ExtResource("1_ei777")
+theme_override_font_sizes/font_size = 30
+text = "START"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 311.0
+offset_top = 154.0
+offset_right = 839.0
+offset_bottom = 251.0
+theme_override_fonts/font = ExtResource("2_e37pk")
+theme_override_font_sizes/font_size = 120
+text = "PsychoManitank"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

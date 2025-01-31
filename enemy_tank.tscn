@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://dsoqpodve5svo"]
+
+[ext_resource type="Texture2D" uid="uid://c5go0huwdaa6i" path="res://Tanks Theme/PNG/Default size/specialBarrel6_outline.png" id="1_mfmf6"]
+[ext_resource type="Script" path="res://enemy_tank.gd" id="1_miis5"]
+[ext_resource type="PackedScene" uid="uid://bb1s83axhrvyo" path="res://enemy_tank_shell.tscn" id="2_c6fto"]
+[ext_resource type="Texture2D" uid="uid://meiufoqiss51" path="res://Tanks Theme/PNG/Default size/shotThin.png" id="2_p1qvc"]
+[ext_resource type="Texture2D" uid="uid://ckapv6y4byk8a" path="res://Tanks Theme/PNG/Default size/shotLarge.png" id="3_0rs74"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e4pli"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_p1qvc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0rs74")
+}],
+"loop": false,
+"name": &"fire",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"load",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aiepg"]
+size = Vector2(10, 29)
+
+[node name="Enemy_Cannon" type="Area2D"]
+rotation = -1.5708
+script = ExtResource("1_miis5")
+CbObj = ExtResource("2_c6fto")
+
+[node name="Barrel" type="Sprite2D" parent="."]
+texture = ExtResource("1_mfmf6")
+
+[node name="Marker2D" type="Marker2D" parent="Barrel"]
+
+[node name="Fire" type="AnimatedSprite2D" parent="Barrel/Marker2D"]
+position = Vector2(0, 28)
+sprite_frames = SubResource("SpriteFrames_e4pli")
+animation = &"fire"
+autoplay = "fire"
+frame = 1
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_aiepg")
+
+[node name="CoolDown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DetectRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+
+[node name="InSight" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InSight"]
+polygon = PackedVector2Array(8, 16, -8, 16, -64, 384, -1.95827e-05, 448, 64, 384)
+
+[connection signal="animation_finished" from="Barrel/Marker2D/Fire" to="." method="_on_fire_animation_finished"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]
+[connection signal="body_entered" from="InSight" to="." method="_on_InSight_body_entered"]
+[connection signal="body_exited" from="InSight" to="." method="_on_InSight_body_exited"]

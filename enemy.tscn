@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b555r5y4qgxa4"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_w5c85"]
+[ext_resource type="Texture2D" uid="uid://cyphn7df7kxjc" path="res://Tanks Theme/PNG/Default size/tank_dark.png" id="2_0xbes"]
+[ext_resource type="PackedScene" uid="uid://dsoqpodve5svo" path="res://enemy_tank.tscn" id="3_kf3kb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b1wkm"]
+radius = 18.0278
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rr80e"]
+radius = 315.0
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_w5c85")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -1.5708
+texture = ExtResource("2_0xbes")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("CircleShape2D_b1wkm")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_rr80e")
+
+[node name="Enemy_Cannon" parent="." instance=ExtResource("3_kf3kb")]
+
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]

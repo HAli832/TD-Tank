@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://dbvtgxa7721ex"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_3i44k"]
+[ext_resource type="Texture2D" uid="uid://b8d10fapexm11" path="res://Tanks Theme/PNG/Default size/tankBody_huge_outline.png" id="2_5qr43"]
+[ext_resource type="PackedScene" uid="uid://sny6tyx853l1" path="res://tank_shell.tscn" id="2_b4esu"]
+[ext_resource type="Texture2D" uid="uid://mysp76ekjhnw" path="res://Tanks Theme/PNG/Default size/specialBarrel1_outline.png" id="3_w0xoh"]
+[ext_resource type="Texture2D" uid="uid://cnc3sm8dmddyv" path="res://Tanks Theme/PNG/Default size/specialBarrel4_outline.png" id="4_i4niq"]
+[ext_resource type="Texture2D" uid="uid://bhbicw4khnjg0" path="res://Tanks Theme/PNG/Default size/explosion2.png" id="5_qe575"]
+[ext_resource type="Texture2D" uid="uid://d3d1ctae3x8xf" path="res://Tanks Theme/PNG/Default size/explosion1.png" id="5_yrbge"]
+[ext_resource type="Texture2D" uid="uid://inen7o2i6tdn" path="res://Tanks Theme/PNG/Default size/explosion3.png" id="6_api31"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kfla7"]
+radius = 17.0294
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nlk00"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_yrbge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qe575")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_api31")
+}],
+"loop": false,
+"name": &"dhoom",
+"speed": 15.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"load",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+script = ExtResource("1_3i44k")
+tank_shell = ExtResource("2_b4esu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kfla7")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CoolDown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="TankBodyHugeOutline" type="Sprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_5qr43")
+
+[node name="SpecialBarrel4Outline2" type="Sprite2D" parent="."]
+position = Vector2(13, 6)
+rotation = 1.57079
+scale = Vector2(0.6, -0.6)
+texture = ExtResource("4_i4niq")
+
+[node name="SpecialBarrel4Outline" type="Sprite2D" parent="."]
+position = Vector2(13, -6)
+rotation = -1.5708
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_i4niq")
+
+[node name="SpecialBarrel1Outline" type="Sprite2D" parent="."]
+position = Vector2(-7, 0)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("3_w0xoh")
+
+[node name="Barrel" type="Marker2D" parent="SpecialBarrel1Outline"]
+position = Vector2(11.6667, 0)
+
+[node name="Dhoom" type="AnimatedSprite2D" parent="SpecialBarrel1Outline"]
+position = Vector2(11.6667, 0)
+scale = Vector2(0.416467, 0.426026)
+sprite_frames = SubResource("SpriteFrames_nlk00")
+animation = &"dhoom"
+autoplay = "dhoom"
+
+[connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]
+[connection signal="animation_finished" from="SpecialBarrel1Outline/Dhoom" to="." method="_on_dhoom_animation_finished"]
