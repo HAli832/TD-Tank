@@ -1,0 +1,10 @@
+res://player.tscn
+res://world.tscn
+res://enemy_tank_shell.tscn
+res://enemy.tscn
+res://explosion.tscn
+res://enemy_tank.tscn
+res://tank_shell.tscn
+res://crate.tscn
+res://start_screen.tscn
+res://player.gd
